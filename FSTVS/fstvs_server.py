@@ -7,8 +7,8 @@ app.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy   dog'
 app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
 
-@app.route('/files')
-def hello_world():
+@app.route('/generate-visible')
+def generate_visible():
     return 'Hello, World!'
 
 @app.route('/uploader', methods = ['GET', 'POST'])

@@ -175,7 +175,7 @@ class PersistentDrawer extends React.Component {
         spacing: '16',
         loading: false,
         success: false,
-        thermalImageUrl: 'upload.png',
+        thermalImageUrl: 'upload_icon.png',
         file:''
     };
 
@@ -238,6 +238,9 @@ class PersistentDrawer extends React.Component {
             console.log(error);
         });
     };
+    handleRemove = () => {
+        this.setState({thermalImageUrl: 'upload_icon.png'});
+    }
     timer = undefined;
     render() {
         const { classes, theme } = this.props;
@@ -346,7 +349,7 @@ class PersistentDrawer extends React.Component {
                                                 
                                                 title="Contemplative Reptile"
                                                 
-                                            ><img src={'./output.png'} style={{width:"250px",height:"250px"}}/></CardMedia>
+                                            ><img src={this.state.thermalImageUrl} style={{width:"250px",height:"250px"}}/></CardMedia>
                                             <Divider/>
                                             <CardContent>
                                                 <Typography type="headline" component="h2">
@@ -368,7 +371,7 @@ class PersistentDrawer extends React.Component {
                                                         Upload <FileUpload/>
                                                     </Button>
                                                 </label>
-                                                <Button raised color="accent" className={classes.button}>
+                                                <Button raised color="accent" className={classes.button} onClick={this.handleRemove}>
                                                     Remove <Delete/>
                                                 </Button>
                                             </CardActions>
@@ -397,7 +400,7 @@ class PersistentDrawer extends React.Component {
                                                 className={classes.media}
                                                 image="../public/favicon.ico"
                                                 title="Contemplative Reptile"
-                                            ><img src="output.png" /></CardMedia>
+                                            ><img src="input.png" /></CardMedia>
                                             <Divider/>
                                             <CardContent>
                                                 <Typography type="headline" component="h2">
