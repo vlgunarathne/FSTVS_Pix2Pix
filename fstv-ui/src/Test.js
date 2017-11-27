@@ -25,6 +25,7 @@ import Delete from 'material-ui-icons/Delete';
 import FileUpload from 'material-ui-icons/FileUpload';
 import Save from 'material-ui-icons/Save';
 import axios from 'axios';
+import JSFileDownload from 'js-file-download';
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -253,16 +254,11 @@ class PersistentDrawer extends React.Component {
     };
 
     handleSaveButtonClick = () => {
-        axios.post('http://localhost:5000/get_image?name=else')
+        axios.post('http://localhost:5000/get_image?name=visible')
         .then((response) => {
-            const base64 = btoa(
-          new Uint8Array(response.data).reduce(
-            (data, byte) => data + String.fromCharCode(byte),
-            '',
-          ),
-        );
-        console.log(base64)
-            debugger;
+        JSFileDownload(response.data,'visible.png')
+
+        console.log(response)
         })
         .catch(function(error){
             console.log(error)
