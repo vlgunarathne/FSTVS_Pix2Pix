@@ -176,7 +176,8 @@ class PersistentDrawer extends React.Component {
         loading: false,
         success: false,
         thermalImageUrl: 'upload_icon.png',
-        file:''
+        file:'',
+        visibleImage:false
     };
 
     handleDrawerOpen = () => {
@@ -199,18 +200,11 @@ class PersistentDrawer extends React.Component {
 
     handleButtonClick = () => {
         if (!this.state.loading) {
+            this.handleGenerateImage();
             this.setState(
                 {
                     success: false,
                     loading: true,
-                },
-                () => {
-                    this.timer = setTimeout(() => {
-                        this.setState({
-                            loading: false,
-                            success: true,
-                        });
-                    }, 5000);
                 },
             );
         }
@@ -241,6 +235,39 @@ class PersistentDrawer extends React.Component {
     handleRemove = () => {
         this.setState({thermalImageUrl: 'upload_icon.png'});
     }
+
+    handleGenerateImage = () => {
+        axios.post('http://localhost:5000/generate-visible',{ responseType: 'arraybuffer' })
+        .then((response) => {
+            console.log(response);
+            this.setState({
+                            loading: false,
+                            success: true,
+                            visibleImage : true
+                        });
+            debugger;
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+    };
+
+    handleSaveButtonClick = () => {
+        axios.post('http://localhost:5000/get_image?name=else')
+        .then((response) => {
+            const base64 = btoa(
+          new Uint8Array(response.data).reduce(
+            (data, byte) => data + String.fromCharCode(byte),
+            '',
+          ),
+        );
+        console.log(base64)
+            debugger;
+        })
+        .catch(function(error){
+            console.log(error)
+        });
+    };
     timer = undefined;
     render() {
         const { classes, theme } = this.props;
@@ -400,7 +427,7 @@ class PersistentDrawer extends React.Component {
                                                 className={classes.media}
                                                 image="../public/favicon.ico"
                                                 title="Contemplative Reptile"
-                                            ><img src="input.png" /></CardMedia>
+                                            >{this.state.visibleImage?<img src="http://localhost:5000/get_image?name=visible" />:''}</CardMedia>
                                             <Divider/>
                                             <CardContent>
                                                 <Typography type="headline" component="h2">
@@ -409,7 +436,9 @@ class PersistentDrawer extends React.Component {
                                                 
                                             </CardContent>
                                             <CardActions>
-                                                <Button className={classes.button} raised dense>
+                                                <Button className={classes.button} raised dense
+                                                    onClick={this.handleSaveButtonClick}
+                                                >
                                                     <Save/>
                                                     Save
                                                 </Button>
