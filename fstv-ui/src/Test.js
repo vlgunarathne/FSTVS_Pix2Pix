@@ -211,6 +211,7 @@ class PersistentDrawer extends React.Component {
         }
     };
     handleUploadFile = (event) => {
+        this.setState({visibleImage: false});
         const data = new FormData();
         let reader = new FileReader();
         let file = event.target.files[0];
@@ -263,6 +264,10 @@ class PersistentDrawer extends React.Component {
         .catch(function(error){
             console.log(error)
         });
+    };
+    handleRefreshButtonClick = () => {
+        this.setState({visibleImage: false});
+        this.setState({visibleImage: true});
     };
     timer = undefined;
     render() {
@@ -437,6 +442,12 @@ class PersistentDrawer extends React.Component {
                                                 >
                                                     <Save/>
                                                     Save
+                                                </Button>
+                                                <Button className={classes.button} raised dense
+                                                    onClick={this.handleRefreshButtonClick}
+                                                >
+
+                                                    Refresh
                                                 </Button>
                                             </CardActions>
                                         </Card>

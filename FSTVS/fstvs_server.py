@@ -46,6 +46,7 @@ def clearContent(path):
 ####################################################################################################
 @app.route('/generate-visible', methods = ["POST"])
 def generate_visible():
+    clearContent('output/images')
     parser = argparse.ArgumentParser()
     parser.add_argument("--input_dir", help="path to folder containing images")
     parser.add_argument("--mode", required=False, choices=["train", "test", "export"])
@@ -782,6 +783,7 @@ def generate_visible():
                     index_path = append_index(filesets)
 
                 print("wrote index at", index_path)
+
             else:
                 # training
                 start = time.time()
@@ -845,6 +847,7 @@ def generate_visible():
 
                     if sv.should_stop():
                         break
+
     main()
     responseImage = 'output/images/thermal-outputs.png'
     return send_file(responseImage)
